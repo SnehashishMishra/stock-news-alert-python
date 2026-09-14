@@ -17,12 +17,12 @@ class EmailSender:
         self.send_email()
 
     def send_email(self) -> None:
-        connection = smtplib.SMTP('smtp.gmail.com', 587)
-        connection.starttls()
-        connection.login(MY_EMAIL, MY_PASSWORD)
+        with smtplib.SMTP('smtp.gmail.com', 587) as connection:
+            connection.starttls()
+            connection.login(MY_EMAIL, MY_PASSWORD)
 
-        for news in self.news:
-            for title, description in news.items():
-                msg =f"Subject: {self.STOCK_NAME} {self.down_perc} {self.sign}\n\nHeadline: {title}{'\nBrief: ' + description}"
+            for news in self.news:
+                for title, description in news.items():
+                    msg =f"Subject: {self.STOCK_NAME} {self.down_perc} {self.sign}\n\nHeadline: {title}{'\nBrief: ' + description}"
 
-                connection.sendmail(MY_EMAIL, RECEIVER_EMAIL, msg.encode('utf-8'))
+                    connection.sendmail(MY_EMAIL, RECEIVER_EMAIL, msg.encode('utf-8'))
